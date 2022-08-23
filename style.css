@@ -48,7 +48,7 @@ body{
 
 .key-container button:nth-child(20),
 .key-container button:nth-child(28){
-    width: 68px;
+    width: 68px; /*botão enter e backspace*/
 }
 
 .tile-container div{
@@ -72,9 +72,38 @@ body{
 }
 
 .message-container p{
-    background-color: #818384;
+    background-color: #477185;
     border-radius: 10px;
     padding: 10px;
     margin:0;
 }
 
+.tile.flip {
+    animation: 0.5s linear flipping;
+}
+
+@keyframes flipping {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+.grey-overlay {
+    background-color: #3a3a3c !important;
+    border:none !important;
+}
+.yellow-overlay {
+    background-color: #b59f3a !important;
+    border:none !important;
+}
+
+.green-overlay {
+    background-color: #538d4e !important;
+    border:none !important;
+}

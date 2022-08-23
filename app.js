@@ -3,7 +3,7 @@ const keyboard = document.querySelector('.key-container')
 const messageDisplay = document.querySelector('.message-container')
 
 const wordle = 'SUPER'
-const keys = [
+const keys = [ //array que contém as teclas do teclado.
     'Q',
     'W',
     'E',
@@ -34,7 +34,7 @@ const keys = [
     '«',
 ]
 
-const guessRows = [
+const guessRows = [ //cria a matriz que é o tabuleiro de suposição das palavras
     ['', '', '', '', '',],
     ['', '', '', '', '',],
     ['', '', '', '', '',],
@@ -43,11 +43,11 @@ const guessRows = [
     ['', '', '', '', '',]
 ]
 
-let curreontRow = 0
-let curreontTile = 0
+let currentRow = 0
+let currentTile = 0
 
 
-guessRows.forEach((guessRow, guessRowIndex) => {
+guessRows.forEach((guessRow, guessRowIndex) => { // cria a div que contém o tabuleiro do jogo
     const rowElement = document.createElement('div')
     rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
     guessRow.forEach((guess, guessIndex) => {
@@ -56,11 +56,10 @@ guessRows.forEach((guessRow, guessRowIndex) => {
         tileElement.classList.add('tile')
         rowElement.append(tileElement)
     })
-
     tileDisplay.append(rowElement)
 })
 
-keys.forEach(key => {
+keys.forEach(key => { //cria o teclado pegando cada string do array de teclas gerando um botão
     const buttonElement = document.createElement('button')
     buttonElement.textContent = key
     buttonElement.setAttribute('id', key)
@@ -68,11 +67,10 @@ keys.forEach(key => {
     keyboard.append(buttonElement)
 })
 
-const handleClick = (letter) => {
+const handleClick = (letter) => { //pega o click das letras do teclado
     console.log('clicked', letter)
     if (letter === '«'){   //se a letra for '«' não adiciona no tabuleiro
         deleteLetter()
-        console.log('guessRows', guessRows)
         return
     }
     if (letter === 'ENTER'){ //se for a tecla 'ENTER' não adiciona no tabuleiro
@@ -83,39 +81,38 @@ const handleClick = (letter) => {
 }
 
 const addLetter = (letter) => { //adiciona letra no tabuleiro
-    if (curreontTile < 5 && curreontRow < 6){ //adiciona letra ao tabuleiro se tiver 5 letras e menos que 6 letras.
-        const tile = document.getElementById('guessRow-' + curreontRow + '-tile-' + curreontTile)
+    if (currentTile < 5 && currentRow < 6){ //adiciona letra ao tabuleiro se tiver 5 letras e menos que 6 letras.
+        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
         tile.textContent = letter
-        guessRows[curreontRow][curreontRow] = letter //entra na matriz e obtém o índice 0 e os seguintes.
+        guessRows[currentRow][currentTile] = letter //entra na matriz e obtém o índice 0 e os seguintes adicionando a letra do teclado no tabuleiro.
         tile.setAttribute('data', letter)
-        curreontTile++
+        currentTile++
     }
 }
 
 const deleteLetter = () => { // deletar letra
-    if (curreontTile > 0){
-        curreontTile-- 
-        const tile = document.getElementById('guessRow-' + curreontRow + '-tile-' + curreontTile)
+    if (currentTile > 0){
+        currentTile-- 
+        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
         tile.textContent = ''
-        guessRows[curreontRow][curreontRow] = ''
+        guessRows[currentRow][currentTile] = ''
         tile.setAttribute('data', '')
     }
 }
 
 const checkRow = () => {
-    const guess = guessRows[curreontRow].join('')
-
-    if (curreontTile === 5){
-        console.log('guess is' + guess, 'worlde is' + wordle)
+    const guess = guessRows[currentRow].join('')
+    if (currentTile === 5){
+        console.log('guess is ' + guess, 'worlde is ' + wordle)
         if (wordle == guess){
             showMessage('Magnífico!')
         }
     }
 }
 
-const showMessage = (message) => { // função que mostra a mensagem se acertar 
+const showMessage = (message) => {
     const messageElement = document.createElement('p')
     messageElement.textContent = message
     messageDisplay.append(messageElement)
-    setTimeout(() => messageDisplay.removeChild(messageElement), 2000)
+    setTimeout(() => messageDisplay.removeChild(messageElement), 1700)
 }
