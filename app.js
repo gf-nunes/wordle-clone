@@ -45,6 +45,7 @@ const guessRows = [ //cria a matriz que é o tabuleiro de suposição das palavr
 
 let currentRow = 0
 let currentTile = 0
+let isGameOver = false
 
 
 guessRows.forEach((guessRow, guessRowIndex) => { // cria a div que contém o tabuleiro do jogo
@@ -102,10 +103,25 @@ const deleteLetter = () => { // deletar letra
 
 const checkRow = () => {
     const guess = guessRows[currentRow].join('')
-    if (currentTile === 5){
+    
+    if (currentTile > 4){
         console.log('guess is ' + guess, 'worlde is ' + wordle)
+        flipTile()
         if (wordle == guess){
             showMessage('Magnífico!')
+            isGameOver = true
+            return
+        }else{
+            if(currentRow >= 5){
+                isGameOver = false
+                showMessage('Game Over!')
+                return
+            }else{
+                if(currentRow < 5){
+                    currentRow++
+                    currentTile = 0
+                }
+            }
         }
     }
 }
@@ -115,4 +131,20 @@ const showMessage = (message) => {
     messageElement.textContent = message
     messageDisplay.append(messageElement)
     setTimeout(() => messageDisplay.removeChild(messageElement), 1700)
+}
+
+const flipTile = () => {
+    const rowTiles = document.querySelector('#guessRow-' + currentRow).childNodes
+    rowTiles.forEach((tile, index) => {
+        const dataLetter = tile.getAttribute('data')
+
+        if (dataLetter == wordle[index]){
+            tile.classList.add('green-overlay')
+        }else if(wordle.includes(dataLetter)){
+            tile.classList.add('yellow-overlay')
+        }else {
+            tile.classList.add('grey-overlay')
+        }
+
+    })
 }
